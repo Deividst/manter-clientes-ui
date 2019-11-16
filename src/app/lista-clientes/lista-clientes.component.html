@@ -1,0 +1,151 @@
+<div class="ui-g">
+    <p-toast></p-toast>
+    <!--<p-confirmDialog header="Confirmação" icon="pi pi-exclamation-triangle"></p-confirmDialog>-->
+    <p-panel header="Administração de clientes" [style]="{width: '70%', margin: '0 auto'}">
+        <div style="margin-bottom: 20px">
+            <p-menubar [model]="items"></p-menubar>
+        </div>
+        <p-table [value]="clientes" selectionMode="single" [(selection)]="clienteSelecionado" dataKey="id">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="col-header-id">Código</th>
+                    <th>Nome</th>
+                    <th>Rendimento Mensal</th>
+                    <th>Risco</th>
+                    <th>Endereço</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-cliente>
+                <tr [pSelectableRow]="cliente">
+                    <td>{{ cliente.id }}</td>
+                    <td>{{ cliente.nome }}</td>
+                    <td class="col-numero">{{ cliente.rendimentoMensal | number: '1.2-2'}}</td>
+                    <td>{{ cliente.risco }}</td>
+                    <td>
+                        {{ cliente.endereco.estado }};
+                        {{ cliente.endereco.cidade }};
+                        {{ cliente.endereco.bairro }};
+                        {{ cliente.endereco.numero }}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+
+    <p-dialog header="Novo Cliente" [(visible)]="displaySaveDialog" [modal]=true>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-4">
+                    <div class="ui-g-12">
+                         <label for="nome">Nome</label>
+                        <input pInputText id="nome" [(ngModel)]="cliente.nome" />
+                    </div>
+                </div>
+
+                <div class="ui-g-4">
+                    <div class="ui-g-12">
+                        <label for="rendimentoMensal">Rendimento Mensal</label>
+                        <input pInputText id="rendimentoMensal" [(ngModel)]="cliente.rendimentoMensal" (blur)="defineRisco()"/>
+                    </div>
+                </div>
+                
+                <div class="ui-g-4">
+                    <div class="ui-g-12">
+                        <label for="risco">Risco</label>
+                        <input pInputText [disabled]="true" id="risco" [(ngModel)]="cliente.risco" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-4">
+                    <div class="ui-g-12">
+                        <label for="bairro">Bairro</label>
+                        <input pInputText id="bairro" [(ngModel)]="endereco.bairro" />
+                    </div>
+                </div>
+                
+                <div class="ui-g-4">
+                    <div class="ui-g-12">
+                        <label for="numero">Numero</label>
+                        <input pInputText id="numero" [(ngModel)]="endereco.numero" />
+                    </div>
+                </div>
+
+                <div class="ui-g-4">
+                    <div class="ui-g-12">
+                        <label for="cidade">Cidade</label>
+                        <input pInputText id="cidade" [(ngModel)]="endereco.cidade" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-4">
+                    <div class="ui-g-12">
+                        <label for="cep">CEP</label>
+                        <input pInputText id="cep" [(ngModel)]="endereco.cep" />
+                    </div>
+                </div>
+                
+                <div class="ui-g-4">
+                    <div class="ui-g-12">
+                        <label for="estado">Estado</label>
+                        <input pInputText id="estado" [(ngModel)]="endereco.estado" />
+                    </div>
+                </div>
+            </div>
+            <p-footer>
+                <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                    <button type="button" pButton icon="pi pi-check" (click)="save()" label="Salvar"></button>
+                </div>
+            </p-footer>
+    </p-dialog>
+
+
+    <p-dialog header="Simular Emprestimo" [(visible)]="displaySimulaDialog" [modal]=true>
+            <div class="ui-g ui-fluid">
+                    <div class="ui-g-4">
+                        <div class="ui-g-12">
+                            <label for="valor">Valor de Emprestimo</label>
+                            <input pInputText id="valor" [(ngModel)]="emprestimo.valor"/>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-4">
+                        <div class="ui-g-12">
+                            <label for="duracao">Duração em Meses</label>
+                            <input pInputText id="duracao" [(ngModel)]="emprestimo.duracao"/>
+                        </div>
+                    </div>
+                    
+                    <div class="ui-g-4">
+                        <div class="ui-g-12">
+                            <label for="taxa">Taxa juros</label>
+                            <input pInputText id="taxa" [disabled]="true" [(ngModel)]="emprestimo.taxa"/>
+                        </div>
+                    </div>
+            </div>
+            <div class="ui-g ui-fluid">
+                    <div class="ui-g-4">
+                        <div class="ui-g-12">
+                             <label for="total">Valor Total</label>
+                            <input pInputText id="total" [disabled]="true" [(ngModel)]="emprestimo.total"/>
+                        </div>
+                    </div>
+    
+                    <div class="ui-g-4">
+                        <div class="ui-g-12">
+                            <label for="valorPrestacao">Valor da Prestação</label>
+                            <input pInputText id="valorPrestacao" [disabled]="true" [(ngModel)]="emprestimo.valorPrestacao"/>
+                        </div>
+                    </div>
+            </div>
+            <p-footer>
+                <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                    <button type="button" pButton icon="pi pi-check" (click)="simulacao()" label="Simular"></button>
+                </div>
+            </p-footer>
+    </p-dialog>
+
+</div>
